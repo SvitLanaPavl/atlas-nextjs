@@ -14,6 +14,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased text-secondary`}>
+
         {children}
       </body>
     </html>
