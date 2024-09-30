@@ -1,8 +1,8 @@
 'use client';
-import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { Question } from '@/components/Question';
 import { AskQuestion } from '@/components/AskQuestion';
+import { useEffect, useState } from 'react';
 
 type Props = {
   params: {
@@ -18,7 +18,7 @@ export default function TopicPage({ params }: Props) {
   useEffect(() => {
     const fetchTopicAndQuestions = async () => {
       setLoading(true);
-      
+
       const { data: topicData, error: topicError } = await supabase
         .from('topics')
         .select('*')
@@ -50,7 +50,17 @@ export default function TopicPage({ params }: Props) {
   }, [params.id]);
 
   const handleQuestionAdded = () => {
-    // Re-fetch questions after a new question is added
+    supabase
+      .from('questions')
+      .select('*')
+      .eq('topic_id', params.id)
+      .order('votes', { ascending: false })
+      .then(({ data }) => {
+        setQuestions(data || []);
+      });
+  };
+
+  const handleVote = () => {
     supabase
       .from('questions')
       .select('*')
@@ -65,15 +75,12 @@ export default function TopicPage({ params }: Props) {
 
   return (
     <div>
-      {/* Topic Title */}
       <h1 className="text-3xl font-black flex items-center">
         {topic?.title || 'Unknown Topic'}
       </h1>
 
-      {/* Ask a Question form */}
       <AskQuestion topic_id={params.id} onQuestionAdded={handleQuestionAdded} />
 
-      {/* List of questions */}
       <div className="mt-8">
         {questions && questions.length > 0 ? (
           questions.map((question) => (
@@ -82,6 +89,7 @@ export default function TopicPage({ params }: Props) {
               id={question.id}
               text={question.title}
               votes={question.votes}
+              onVote={handleVote}
             />
           ))
         ) : (
