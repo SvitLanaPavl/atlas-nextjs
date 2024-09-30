@@ -7,10 +7,7 @@ import SignOutButton from '@/components/SignOutButton';
 
 export default function UIPage({ children }: { children: React.ReactNode }) {
   return (
-    <div className='flex h-screen flex-col md:flex-row md:overflow-hidden'>
-
-    
-    </div>
-    
+    <>
+    </>  
   );
 }
