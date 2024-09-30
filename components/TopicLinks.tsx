@@ -1,10 +1,10 @@
-'use client'; // Make this a client-side component
+'use client';
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import TopicLink from './TopicLink';
 
-export default function TopicLinks() {
+export default function TopicLinks({ onNewTopic }: { onNewTopic?: (newTopic: any) => void }) {
   const [topics, setTopics] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -22,19 +22,27 @@ export default function TopicLinks() {
     };
 
     fetchTopics();
-  }, []); // The empty dependency array ensures this only runs once when the component is mounted
+  }, []);
 
-  // Display loading state if necessary
-  if (loading) {
-    return <div>Loading topics...</div>;
-  }
+  // Handle new topic addition
+  const handleNewTopic = (newTopic: any) => {
+    setTopics((prevTopics) => [...prevTopics, newTopic]);
+  };
 
-  // If no topics were found, display a message
-  if (!topics || topics.length === 0) {
-    return <div>No topics found</div>;
-  }
+  // Pass the function to parent if needed
+  useEffect(() => {
+    if (onNewTopic) {
+      onNewTopic(handleNewTopic);
+    }
+  }, [onNewTopic]);
 
-  // Render the list of topics dynamically
+  // Loading state
+  if (loading) return <div>Loading topics...</div>;
+
+  // No topics found state
+  if (!topics || topics.length === 0) return <div>No topics found</div>;
+
+  // Render topics
   return (
     <>
       {topics.map((topic) => (

@@ -1,8 +1,8 @@
 'use client';
-import { supabase } from '@/lib/supabaseClient';
+import { useEffect, useState } from 'react';
+import { fetchQuestions, fetchTopic } from '@/lib/actions';
 import { Question } from '@/components/Question';
 import { AskQuestion } from '@/components/AskQuestion';
-import { useEffect, useState } from 'react';
 import Loading from '../../loading';
 
 type Props = {
@@ -20,28 +20,20 @@ export default function TopicPage({ params }: Props) {
     const fetchTopicAndQuestions = async () => {
       setLoading(true);
 
-      const { data: topicData, error: topicError } = await supabase
-        .from('topics')
-        .select('*')
-        .eq('id', params.id)
-        .single();
-
-      if (topicError) {
-        console.error('Error fetching topic:', topicError.message);
-      } else {
+      try {
+        // Fetch the topic
+        const topicData = await fetchTopic(params.id);
         setTopic(topicData);
-      }
 
-      const { data: questionsData, error: questionsError } = await supabase
-        .from('questions')
-        .select('*')
-        .eq('topic_id', params.id)
-        .order('votes', { ascending: false });
-
-      if (questionsError) {
-        console.error('Error fetching questions:', questionsError.message);
-      } else {
-        setQuestions(questionsData);
+        // Fetch the questions
+        const questionsData = await fetchQuestions(params.id);
+        setQuestions(questionsData || []);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error('Error fetching data:', error.message);
+        } else {
+          console.error('An unknown error occurred.');
+        }
       }
 
       setLoading(false);
@@ -51,31 +43,22 @@ export default function TopicPage({ params }: Props) {
   }, [params.id]);
 
   const handleQuestionAdded = () => {
-    supabase
-      .from('questions')
-      .select('*')
-      .eq('topic_id', params.id)
-      .order('votes', { ascending: false })
-      .then(({ data }) => {
-        setQuestions(data || []);
-      });
+    fetchQuestions(params.id).then((data) => {
+      setQuestions(data || []);
+    });
   };
 
   const handleVote = () => {
-    supabase
-      .from('questions')
-      .select('*')
-      .eq('topic_id', params.id)
-      .order('votes', { ascending: false })
-      .then(({ data }) => {
-        setQuestions(data || []);
-      });
+    fetchQuestions(params.id).then((data) => {
+      setQuestions(data || []);
+    });
   };
 
   if (loading) return <Loading />;
 
   return (
     <div>
+      {/* Now displaying the topic title */}
       <h1 className="text-3xl font-black flex items-center">
         {topic?.title || 'Unknown Topic'}
       </h1>
