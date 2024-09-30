@@ -1,13 +1,32 @@
+'use client'; // Make this a client-side component
+
+import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
-import TopicLink from "./TopicLink";
+import TopicLink from './TopicLink';
 
-export default async function TopicLinks() {
-  // Fetch the topics from the database
-  const { data: topics, error } = await supabase.from('topics').select('*');
+export default function TopicLinks() {
+  const [topics, setTopics] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  if (error) {
-    console.error('Error fetching topics:', error.message);
-    return <div>Error fetching topics</div>;
+  useEffect(() => {
+    const fetchTopics = async () => {
+      setLoading(true);
+      const { data: topicsData, error } = await supabase.from('topics').select('*');
+
+      if (error) {
+        console.error('Error fetching topics:', error.message);
+      } else {
+        setTopics(topicsData || []);
+      }
+      setLoading(false);
+    };
+
+    fetchTopics();
+  }, []); // The empty dependency array ensures this only runs once when the component is mounted
+
+  // Display loading state if necessary
+  if (loading) {
+    return <div>Loading topics...</div>;
   }
 
   // If no topics were found, display a message

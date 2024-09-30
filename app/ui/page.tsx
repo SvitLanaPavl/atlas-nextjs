@@ -8,6 +8,7 @@ import SignOutButton from '@/components/SignOutButton';
 export default function UIPage({ children }: { children: React.ReactNode }) {
   return (
     <>
+    {children}
     </>  
   );
 }

@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabaseClient';
 import { Question } from '@/components/Question';
 import { AskQuestion } from '@/components/AskQuestion';
 import { useEffect, useState } from 'react';
+import Loading from '../../loading';
 
 type Props = {
   params: {
@@ -71,7 +72,7 @@ export default function TopicPage({ params }: Props) {
       });
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading />;
 
   return (
     <div>
