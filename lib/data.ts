@@ -13,7 +13,9 @@ export async function fetchUser(email: string): Promise<User | undefined> {
 
 export async function fetchTopics() {
   try {
+    console.log("Database URL in fetchTopics:", process.env.POSTGRES_URL);
     const data = await sql<Topic>`SELECT * FROM topics`;
+    console.log('Fetched topics:', data.rows);
     return data.rows;
   } catch (error) {
     console.error("Database Error:", error);

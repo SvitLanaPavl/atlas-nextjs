@@ -1,15 +1,15 @@
 import SideNav from "@/components/Sidenav";
 import { ReactNode } from "react";
-import SignOutButton from "@/components/SignOutButton";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className='flex'>
+    <div className='flex min-h-screen'>
       <SideNav />
-      <main className="flex-grow p-4">
+      <main className="flex-grow md:w-3/4 p-6 md:p-12 md:overflow-y-auto">
         {children}
       </main>
-      <SignOutButton />
     </div>
   )
 }
+
+export default Layout;
