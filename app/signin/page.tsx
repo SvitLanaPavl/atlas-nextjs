@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { signIn } from 'next-auth/react';
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
@@ -13,11 +14,22 @@ export default function SignInPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (email === 'user@atlasmail.com' && password === '123456') {
-      router.push('/ui');
-    } else {
+    const result = await signIn('credentials', {
+      redirect: false,
+      email,
+      password
+    });
+    if (result?.error) {
       setError('Invalid email or password');
+    } else {
+      router.push('/ui');
     }
+
+    // if (email === 'user@atlasmail.com' && password === '123456') {
+    //   router.push('/ui');
+    // } else {
+    //   setError('Invalid email or password');
+    // }
   };
 
   return (
