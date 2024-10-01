@@ -24,12 +24,10 @@ export default function TopicLinks({ onNewTopic }: { onNewTopic?: (newTopic: any
     fetchTopics();
   }, []);
 
-  // Handle new topic addition
   const handleNewTopic = (newTopic: any) => {
     setTopics((prevTopics) => [...prevTopics, newTopic]);
   };
 
-  // Pass the function to parent if needed
   useEffect(() => {
     if (onNewTopic) {
       onNewTopic(handleNewTopic);
