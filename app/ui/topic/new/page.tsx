@@ -1,6 +1,4 @@
 // ui/topic/new/page.tsx
-import { addTopic } from '@/lib/actions';
-import Link from 'next/link';
 import CreateTopicForm from '@/components/CreateTopicForm';
 
 export default function NewTopicPage() {

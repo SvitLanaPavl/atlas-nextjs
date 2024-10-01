@@ -58,7 +58,7 @@ export default function TopicPage({ params }: Props) {
 
   return (
     <div>
-      {/* Now displaying the topic title */}
+      {/* Displaying the topic title */}
       <h1 className="text-3xl font-black flex items-center">
         {topic?.title || 'Unknown Topic'}
       </h1>

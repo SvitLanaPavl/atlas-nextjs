@@ -1,4 +1,3 @@
-// Define your server actions here
 "use server";
 
 import { supabase } from '@/lib/supabaseClient';
