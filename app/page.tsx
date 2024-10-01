@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import placeholder from '@/assets/placeholder.svg';
+import unlock from '@/assets/unlock.webp';
 
 export default function Home() {
   return (
@@ -37,7 +37,7 @@ export default function Home() {
             width={1200}
             height={1200}
             className="mx-auto aspect-square overflow-hidden rounded-xl object-cover w-full max-w-[550px]"
-            src={placeholder}
+            src={unlock}
           />
         </div>
       </div>

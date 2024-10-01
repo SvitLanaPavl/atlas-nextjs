@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import TopicLink from './TopicLink';
+import TopicLinkSkeleton from './Skeletons';
 
 export default function TopicLinks({ onNewTopic }: { onNewTopic?: (newTopic: any) => void }) {
   const [topics, setTopics] = useState<any[]>([]);
@@ -35,7 +36,14 @@ export default function TopicLinks({ onNewTopic }: { onNewTopic?: (newTopic: any
   }, [onNewTopic]);
 
   // Loading state
-  if (loading) return <div>Loading topics...</div>;
+  if (loading) return (
+    <div className="space-y-4">
+        <TopicLinkSkeleton />
+        <TopicLinkSkeleton />
+        <TopicLinkSkeleton />
+        <TopicLinkSkeleton />
+      </div>
+  );
 
   // No topics found state
   if (!topics || topics.length === 0) return <div>No topics found</div>;

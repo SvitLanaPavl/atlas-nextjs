@@ -55,3 +55,13 @@ export function TopicsSkeleton() {
     </div>
   );
 }
+
+// Skeleton for each topic link
+export default function TopicLinkSkeleton() {
+  return (
+    <div className={`${shimmer} relative flex items-center space-x-2 py-2`}>
+      <div className="h-4 w-8 rounded-md bg-gray-200" />
+      <div className="h-5 w-40 rounded-md bg-gray-200" />
+    </div>
+  );
+}
