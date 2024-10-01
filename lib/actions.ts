@@ -96,3 +96,18 @@ export async function voteForQuestion(questionId: string) {
     throw new Error('Failed to update votes.');
   }
 }
+
+export async function fetchUser(email: string) {
+  const { data: user, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('email', email)
+    .single();
+  
+  if (error) {
+    console.error('Failed to fetch user:', error);
+    return null;
+  }
+
+  return user;
+}
