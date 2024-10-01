@@ -1,13 +1,9 @@
 import { ReactNode } from 'react';
 
 interface UIPageProps {
-  children?: ReactNode;
+  children: ReactNode;
 }
 
 export default function UIPage({ children }: UIPageProps) {
-  return (
-    <>
-      {children}
-    </>  
-  );
+  return <>{children}</>;
 }
