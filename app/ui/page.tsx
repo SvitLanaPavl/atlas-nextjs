@@ -4,10 +4,10 @@ interface UIPageProps {
   children?: ReactNode;
 }
 
-export default function UIPage({ children }: { children: React.ReactNode }) {
+export default function UIPage({ children }: UIPageProps) {
   return (
     <>
-    {children}
+      {children}
     </>  
   );
 }
